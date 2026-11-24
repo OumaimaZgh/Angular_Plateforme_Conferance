@@ -1,17 +1,22 @@
 import { Component, computed, signal } from '@angular/core';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Conference } from '../../Models/conference.model';
+import { ConferenceDetails } from '../conference-details/conference-details';
 
 @Component({
   selector: 'app-conference-list',
-  imports: [FormsModule, DatePipe, UpperCasePipe],
+  imports: [FormsModule, DatePipe, UpperCasePipe,ConferenceDetails],
   templateUrl: './conference-list.html',
   styleUrl: './conference-list.css',
+  
 })
 export class ConferenceList {
   search = signal('');
+  today = new Date();
+  selectedId = signal<number | null>(null);
 
-  conferences = signal([
+  conferences = signal<Conference[]>([
     {
       id: 1,
       title: 'Angular 21 Conference',
@@ -46,6 +51,10 @@ export class ConferenceList {
     return this.conferences().filter(c => c.title.toLowerCase().includes(term));
   });
 
+  selectedConference = computed(() =>
+    this.conferences().find(c => c.id === this.selectedId()) ?? null
+  );
+
   buttonColor(remaining: number): string {
     return remaining === 0 ? 'red' : remaining < 10 ? 'orange' : 'green';
   }
@@ -59,4 +68,7 @@ export class ConferenceList {
       )
     );
   }
+
+
+
 }

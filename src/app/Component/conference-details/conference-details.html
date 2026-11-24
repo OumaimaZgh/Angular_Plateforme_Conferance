@@ -1,0 +1,16 @@
+<section class="details">
+  <div class="details-icon">🎤</div>
+
+  <div class="details-content">
+    <h3 class="details-title">Détail de la conférence</h3>
+    <p class="details-info">Conférence sélectionnée depuis la liste.</p>
+
+    <div class="details-body">
+      <p><b>Titre :</b> {{ conference().title }}</p>
+      <p><b>Description :</b> {{ conference().description }}</p>
+      <p><b>Lieu :</b> {{ conference().place }}</p>
+      <p><b>Date :</b> {{ conference().date | date: 'dd/MM/yyyy' }}</p>
+      <p><b>Participants :</b> {{ conference().nbParticipants }} / {{ conference().maxParticipants }}</p>
+    </div>
+  </div>
+</section>

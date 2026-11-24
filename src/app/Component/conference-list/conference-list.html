@@ -17,17 +17,24 @@
   } @else {
     <div class="confs-grid">
       @for (c of filteredConferences(); track c.id) {
-        <article class="conf-card">
-          <h3 class="conf-name">{{ c.title | uppercase }}</h3>
-          <p><b>Date :</b> {{ c.date | date: 'dd/MM/yyyy' }}</p>
-          <p><b>Lieu :</b> {{ c.place }}</p>
-          @let left = c.maxParticipants - c.nbParticipants;
-          <p><b>Places restantes :</b> {{ left }}</p>
-          <button class="btn" [class]="buttonColor(left)" [disabled]="left === 0" (click)="register(c.id)">
-            S'inscrire
-          </button>
-        </article>
+        @if (c.date > today) {
+          <article class="conf-card" (click)="selectedId.set(c.id)">
+            <h3 class="conf-name">{{ c.title | uppercase }}</h3>
+            <p><b>Date :</b> {{ c.date | date: 'dd/MM/yyyy' }}</p>
+            <p><b>Lieu :</b> {{ c.place }}</p>
+            @let left = c.maxParticipants - c.nbParticipants;
+            <p><b>Places restantes :</b> {{ left }}</p>
+            <button class="btn" [class]="buttonColor(left)" [disabled]="left === 0"
+                    (click)="register(c.id); $event.stopPropagation()">
+              S'inscrire
+            </button>
+          </article>
+        }
       }
     </div>
+  }
+
+  @if (selectedConference(); as conf) {
+    <app-conference-details [conference]="conf" />
   }
 </section>
